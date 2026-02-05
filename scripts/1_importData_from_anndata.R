@@ -1,6 +1,7 @@
 library(SingleCellExperiment)
 library(SpatialExperiment)
 library(S4Vectors)
+library(scater)
 
 reticulate::use_condaenv("single_cell", required = TRUE)
 
@@ -11,7 +12,7 @@ sample_id <- list("9-1" = "9-1"
 
 spe_list <- lapply(sample_id,function(sample){
   
-  sce <- anndataR::read_h5ad(path = file.path("data/processed_data"
+  sce <- anndataR::read_h5ad(path = file.path("/media/cn-3-ferr-2/data/projects/alzheimer/data/processed_data"
                                               ,sample
                                               ,"multimodal/stitched_segmented.h5ad")
                              ,as = "SingleCellExperiment")
@@ -44,4 +45,6 @@ spe_list <- lapply(spe_list, function(spe){
 })
 
 common_gene <- Reduce(intersect, lapply(spe_list, rownames))
-spe_all <- do.call(cbind, lapply(spe_list, function(spe) spe[common_gene,]))
+spe_list <-  lapply(spe_list, function(spe) spe[common_gene,])
+
+saveRDS(spe_list,"data/spe_list.rds")

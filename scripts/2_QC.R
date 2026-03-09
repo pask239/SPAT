@@ -206,7 +206,10 @@ lapply(spe_list, function(spe){
 #   
 # })
 
+spe <- do.call(cbind,spe_list)
 
+spe$condition <- ifelse(stringr::str_detect(spe$sample_id,"9-1|9-3"),"Wt","Tg")
+spe$time <- ifelse(stringr::str_detect(spe$sample_id,"9-3|9-4"),"3m","1m")
 
-saveRDS(spe_list,file = "data/spe_list_qc.rds")
+saveRDS(spe,file = "data/spe_qc.rds")
 

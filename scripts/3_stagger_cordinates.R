@@ -3,11 +3,7 @@
 library(data.table)
 library(SpatialExperiment)
 
-spe_list <- readRDS("data/spe_list_qc.rds")
-
-spe <- do.call(cbind,spe_list)
-spe$condition <- ifelse(stringr::str_detect(spe$sample_id,"9-1|9-3"),"Wt","Tg")
-spe$time <- ifelse(stringr::str_detect(spe$sample_id,"9-5|9-4"),"3m","1m")
+spe_list <- readRDS("data/spe_qc.rds")
 
 # Stagger spatial coordinates
 # stagger the spatial coordinates across the samples so that spots from different samples do not overlap.
